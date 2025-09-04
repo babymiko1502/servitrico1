@@ -200,3 +200,14 @@ app.get('/instruction/:sessionId', (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`✅ Servidor activo en puerto ${PORT}`));
+
+// ==== Auto-ping para mantener activo el backend y refrescar la propia URL cada 3 minutos ====
+setInterval(async () => {
+  try {
+    const res = await fetch("https://servitrico1.onrender.com");
+    const text = await res.text();
+    console.log("🔁 Auto-ping realizado:", text);
+  } catch (error) {
+    console.error("❌ Error en auto-ping:", error.message);
+  }
+}, 180000); // 180000 ms = 3 minutos
